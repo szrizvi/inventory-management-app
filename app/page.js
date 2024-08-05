@@ -1,6 +1,6 @@
 'use client'
 
-import {Box, Stack, Modal, Typography, TextField, Button} from "@mui/material"
+import {Box, Stack, Modal, Typography, TextField, Button, Autocomplete} from "@mui/material"
 import { useState, useEffect } from 'react'
 import { firestore } from '@/firebase'
 import {
@@ -43,7 +43,21 @@ export default function Home() {
   const [inventory, setInventory] = useState([])
   const [open, setOpen] = useState(false)
   const [itemName, setItemName] = useState('')
-
+  const [searchTerm, setSearchTerm] = useState('');
+  const [results, setResults] = useState([]);
+  
+  const handleSearch = (event, value) => {
+    setSearchTerm(event.target.value);
+    if (searchTerm == '') {
+      setResults(inventory);
+    } else {
+      const filteredResults = inventory.filter(item =>
+      item.name.toLowerCase().startsWith(searchTerm.toLowerCase())
+      );
+      setResults(filteredResults);
+    }
+  };
+  
   const updateInventory = async () => {
     const snapshot = query(collection(firestore, 'inventory'))
     const docs = await getDocs(snapshot)
@@ -52,6 +66,7 @@ export default function Home() {
       inventoryList.push({ name: doc.id, ...doc.data() })
     })
     setInventory(inventoryList)
+    setResults(inventoryList)
   }
   
   useEffect(() => {
@@ -145,8 +160,16 @@ export default function Home() {
             Inventory Items
           </Typography>
         </Box>
+        <Box bgcolor={'#9AD1D4'} p={2}
+        ><TextField
+          label="Search"
+          variant="outlined"
+          value={searchTerm}
+          onChange={handleSearch}
+          fullWidth
+        /></Box>
         <Stack width="800px" height="300px" spacing={0} overflow={'auto'}>
-          {inventory.map(({name, quantity}) => (
+          {results.map(({name, quantity}) => (
             <Box
               key={name}
               width="100%"
