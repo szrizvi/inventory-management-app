@@ -156,7 +156,7 @@ export default function Home() {
           alignItems={'center'}
           borderBottom={'5px solid #007EA7'}
         >
-          <Typography variant={'h3'} color={'#003249'} textAlign={'center'} fontFamily={'Inter'}>
+          <Typography variant={'h4'} color={'#003249'} textAlign={'center'} fontFamily={'Inter'}>
             Inventory Items
           </Typography>
         </Box>
