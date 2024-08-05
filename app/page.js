@@ -20,7 +20,7 @@ const style = {
   transform: 'translate(-50%, -50%)',
   width: 400,
   bgcolor: 'white',
-  border: '2px solid #000',
+  border: '2px solid #007EA7',
   boxShadow: 24,
   p: 4,
   display: 'flex',
@@ -28,11 +28,15 @@ const style = {
   gap: 3,
 }
 
-const inventory = [
-  'tomato',
-  'potato',
-  'onion'
-]
+const buttonStyle = {
+  boxShadow: 6,
+  p: 1,
+  bgcolor: '#003249',
+  '&:hover': {
+    bgcolor: '#007EA7',
+  },
+  fontFamily: 'Monospace',
+}
 
 
 export default function Home() {
@@ -92,6 +96,7 @@ export default function Home() {
       flexDirection={'column'}
       alignItems={'center'}
       gap={2}
+      bgcolor={"#CCDBDC"}
     >
       <Modal
         open={open}
@@ -114,6 +119,7 @@ export default function Home() {
             />
             <Button
               variant="outlined"
+              sx = { buttonStyle }
               onClick={() => {
                 addItem(itemName)
                 setItemName('')
@@ -125,47 +131,48 @@ export default function Home() {
           </Stack>
         </Box>
       </Modal>
-      <Button variant="contained" onClick={handleOpen}>
-        Add New Item
-      </Button>
-      <Box border={'1px solid #333'}>
+      <Box border={'5px solid #007EA7'} borderRadius={"8px"}>
         <Box
           width="800px"
-          height="100px"
-          bgcolor={'#ADD8E6'}
+          height="70px"
+          bgcolor={'#9AD1D4'}
           display={'flex'}
           justifyContent={'center'}
           alignItems={'center'}
+          borderBottom={'5px solid #007EA7'}
         >
-          <Typography variant={'h2'} color={'#333'} textAlign={'center'}>
+          <Typography variant={'h3'} color={'#003249'} textAlign={'center'} fontFamily={'Inter'}>
             Inventory Items
           </Typography>
         </Box>
-        <Stack width="800px" height="300px" spacing={2} overflow={'auto'}>
+        <Stack width="800px" height="300px" spacing={0} overflow={'auto'}>
           {inventory.map(({name, quantity}) => (
             <Box
               key={name}
               width="100%"
-              minHeight="150px"
+              minHeight="70px"
               display={'flex'}
               justifyContent={'space-between'}
               alignItems={'center'}
-              bgcolor={'#f0f0f0'}
-              paddingX={5}
+              bgcolor={'#9AD1D4'}
+              paddingX={4}
             >
-              <Typography variant={'h3'} color={'#333'} textAlign={'center'}>
+              <Typography variant={'h5'} color={'#003249'} textAlign={'center'} fontFamily={'Inter'}>
                 {name.charAt(0).toUpperCase() + name.slice(1)}
               </Typography>
-              <Typography variant={'h3'} color={'#333'} textAlign={'center'}>
+              <Typography variant={'h5'} color={'#003249'} textAlign={'center'} fontFamily={'Inter'}>
                 Quantity: {quantity}
               </Typography>
-              <Button variant="contained" onClick={() => removeItem(name)}>
+              <Button variant="contained" sx = { buttonStyle } onClick={() => removeItem(name)}>
                 Remove
               </Button>
             </Box>
           ))}
         </Stack>
       </Box>
+      <Button sx={ buttonStyle } variant="contained" onClick={handleOpen}>
+        Add New Item
+      </Button>
     </Box>
   )
   
