@@ -12,6 +12,7 @@ import {
   deleteDoc,
   getDoc,
 } from 'firebase/firestore'
+import { CameraComponent } from "./camera.js"
 
 const style = {
   position: 'absolute',
@@ -36,6 +37,7 @@ const buttonStyle = {
     bgcolor: '#007EA7',
   },
   fontFamily: 'Monospace',
+  color: '#ffffff'
 }
 
 
@@ -123,6 +125,9 @@ export default function Home() {
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Add Item
           </Typography>
+          <Typography id="modal-modal-description" variant="h8" component="h5">
+            Add with Item Name
+          </Typography>
           <Stack width="100%" direction={'row'} spacing={2}>
             <TextField
               id="outlined-basic"
@@ -144,6 +149,10 @@ export default function Home() {
               Add
             </Button>
           </Stack>
+          <Typography id="modal-modal-description" variant="h8" component="h5">
+            Add with Photo
+          </Typography>
+          <CameraComponent />
         </Box>
       </Modal>
       <Box border={'5px solid #007EA7'} borderRadius={"8px"}>
@@ -168,6 +177,8 @@ export default function Home() {
           onChange={handleSearch}
           fullWidth
         /></Box>
+        <Box bgcolor={"#9AD1D4"}>
+        </Box>
         <Stack width="800px" height="300px" spacing={0} overflow={'auto'}>
           {results.map(({name, quantity}) => (
             <Box
