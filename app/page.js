@@ -13,6 +13,7 @@ import {
   getDoc,
 } from 'firebase/firestore'
 import { CameraComponent } from "./camera.js"
+import axios from 'axios';
 
 const style = {
   position: 'absolute',
@@ -48,13 +49,14 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState([]);
   
-  const handleSearch = (event, value) => {
-    setSearchTerm(event.target.value);
-    if (searchTerm == '') {
+  const handleSearch = (event) => {
+    const newSearchTerm = event.target.value;
+    setSearchTerm(newSearchTerm);
+    if (!searchTerm) {
       setResults(inventory);
     } else {
       const filteredResults = inventory.filter(item =>
-      item.name.toLowerCase().startsWith(searchTerm.toLowerCase())
+      item.name.toLowerCase().startsWith(newSearchTerm.toLowerCase())
       );
       setResults(filteredResults);
     }
@@ -85,6 +87,17 @@ export default function Home() {
       await setDoc(docRef, { quantity: 1 })
     }
     await updateInventory()
+  }
+
+  const handleAddWithImage = async (image) => {
+    try {
+      const response = await axios.post('/addWithImage', { image });
+      const item = response.data.choices[0].message.content;
+      console.log(item);
+      addItem(item);
+    } catch (error) {
+      console.error('Error making request:', error.response ? error.response.data : error.message);
+    }
   }
   
   const removeItem = async (item) => {
@@ -152,7 +165,7 @@ export default function Home() {
           <Typography id="modal-modal-description" variant="h8" component="h5">
             Add with Photo
           </Typography>
-          <CameraComponent />
+          <CameraComponent addWithImage={handleAddWithImage} />
         </Box>
       </Modal>
       <Box border={'5px solid #007EA7'} borderRadius={"8px"}>

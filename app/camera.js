@@ -13,7 +13,7 @@ const buttonStyle = {
   color: '#ffffff',
 };
 
-export const CameraComponent = () => {
+export const CameraComponent = ({addWithImage}) => {
   const camera = useRef(null);
   const [image, setImage] = useState(null);
   const [photoTaken, setPhotoTaken] = useState(false);
@@ -40,7 +40,7 @@ export const CameraComponent = () => {
                     variant="outlined"
                     sx={buttonStyle}
                     onClick={() =>  {
-                        console.log("TODO: Upload img to firebase + add item")
+                        addWithImage(image);
                         }
                     }
                 >
@@ -50,7 +50,7 @@ export const CameraComponent = () => {
             </>
         ) : (
             <>
-                <Box width="100vw" height="200px" position="relative" border="1px solid #007EA7" borderRadius="8px" overflow="hidden">
+                <Box width="100vw" height="200px" position="relative" border="1px solid #007EA7" borderRadius="8px" overflow="auto">
                     <Camera ref={camera} />
                 </Box>
                 <Button
